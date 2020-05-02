@@ -1740,6 +1740,32 @@ cdef class DB(object):
             st = self.db.Delete(opts, cf_handle, c_key)
         check_status(st)
 
+    def delete_range(self, start, end, sync=False, disable_wal=False):
+        cdef Status st
+        cdef options.WriteOptions opts
+        opts.sync = sync
+        opts.disableWAL = disable_wal
+
+        if isinstance(start, tuple):
+            column_family, start = start
+        else:
+            column_family = None
+
+        if isinstance(end, tuple):
+            e_column_family, end = end
+            if e_column_family is not column_family:
+                raise ValueError("Can not use different column families for start and end")
+
+        cdef Slice c_start = bytes_to_slice(start)
+        cdef Slice c_end = bytes_to_slice(end)
+        cdef db.ColumnFamilyHandle* cf_handle = self.db.DefaultColumnFamily()
+        if column_family:
+            cf_handle = (<ColumnFamilyHandle?>column_family).get_handle()
+
+        with nogil:
+            st = self.db.DeleteRange(opts, cf_handle, c_start, c_end)
+        check_status(st)
+
     def merge(self, key, value, sync=False, disable_wal=False):
         cdef Status st
         cdef options.WriteOptions opts

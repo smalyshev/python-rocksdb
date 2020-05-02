@@ -66,6 +66,12 @@ cdef extern from "rocksdb/db.h" namespace "rocksdb":
             ColumnFamilyHandle*,
             const Slice&) nogil except+
 
+        Status DeleteRange(
+            const options.WriteOptions&,
+            ColumnFamilyHandle*,
+            const Slice&,
+            const Slice&) nogil except+
+
         Status Merge(
             const options.WriteOptions&,
             ColumnFamilyHandle*,
