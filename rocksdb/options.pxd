@@ -101,6 +101,7 @@ cdef extern from "rocksdb/options.h" namespace "rocksdb":
         uint64_t bytes_per_sync
         cpp_bool allow_concurrent_memtable_write
         cpp_bool enable_write_thread_adaptive_yield
+        cpp_bool enable_pipelined_write
         shared_ptr[Cache] row_cache
 
     cdef cppclass ColumnFamilyOptions:

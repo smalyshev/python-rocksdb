@@ -1427,6 +1427,12 @@ cdef class Options(ColumnFamilyOptions):
         def __set__(self, value):
             self.opts.use_adaptive_mutex = value
 
+    property enable_pipelined_write:
+        def __get__(self):
+            return self.opts.enable_pipelined_write
+        def __set__(self, value):
+            self.opts.enable_pipelined_write = value
+
     property bytes_per_sync:
         def __get__(self):
             return self.opts.bytes_per_sync
