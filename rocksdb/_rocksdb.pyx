@@ -1261,6 +1261,9 @@ cdef class Options(ColumnFamilyOptions):
     def increase_parallelism(self, int total_threads=16):
         self.opts.IncreaseParallelism(total_threads)
 
+    def optimize_level_style_compaction(self, int memtable_memory_budget=512 * 1024 * 1024):
+        self.opts.OptimizeLevelStyleCompaction(memtable_memory_budget)
+
     property create_if_missing:
         def __get__(self):
             return self.opts.create_if_missing

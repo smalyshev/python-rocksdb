@@ -103,7 +103,6 @@ cdef extern from "rocksdb/options.h" namespace "rocksdb":
         cpp_bool enable_write_thread_adaptive_yield
         cpp_bool enable_pipelined_write
         shared_ptr[Cache] row_cache
-        void IncreaseParallelism(int) nogil except+
 
     cdef cppclass ColumnFamilyOptions:
         ColumnFamilyOptions()
@@ -154,6 +153,8 @@ cdef extern from "rocksdb/options.h" namespace "rocksdb":
         # TODO: remove options source_compaction_factor, max_grandparent_overlap_bytes and expanded_compaction_factor from document
         uint64_t max_compaction_bytes
         CompressionOptions compression_opts
+        void IncreaseParallelism(int) nogil except+
+        void OptimizeLevelStyleCompaction(int) nogil except+
 
     cdef cppclass Options(DBOptions, ColumnFamilyOptions):
         pass
